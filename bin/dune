@@ -1,0 +1,4 @@
+(executable
+ (public_name oCounter)
+ (name main)
+ (libraries oCounter stdio))
