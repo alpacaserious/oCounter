@@ -25,11 +25,9 @@ let trimNote l =
         None
 
 (* lines.tl to skip csv column name *)
-let notes = List.map (trimNote) (List.tl lines)
+let notes = List.map trimNote (List.tl lines)
 
-let trimmed = List.filter(Option.is_some) notes
-
-let unwrapped = List.map(Option.get) trimmed
+let unwrapped = List.filter_map (fun n -> n) notes
 
 let count l =
     let hash = Hashtbl.create 10 in
