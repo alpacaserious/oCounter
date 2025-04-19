@@ -31,5 +31,11 @@ let count l =
   Hashtbl.fold (fun k v ls -> (k, v) :: ls) tbl []
 
 let pairs = count names
-let sorted = List.sort (fun l r -> String.compare (fst l) (fst r)) pairs
+
+let sort pairs b =
+  (* always sort alphabetically, if b then also sort numerically *)
+  let list = List.sort (fun l r -> String.compare (fst l) (fst r)) pairs in
+  if b then list else List.sort (fun l r -> Int.compare (snd l) (snd r)) list
+
+let sorted = sort pairs true
 let () = List.iter (fun f -> printf "%d %s\n" (snd f) (fst f)) sorted
