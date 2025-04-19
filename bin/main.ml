@@ -8,15 +8,14 @@ let getNames l =
   let text = List.nth split 3 in
 
   (* return None if empty string *)
-  if String.length text > 2 then
+  if String.length text < 2 then []
+  else
     (* trim " []" from right *)
     let res =
       let idx = String.index_opt text '[' in
       match idx with Some i -> String.sub text 0 (i - 1) | None -> text
     in
-    let r = String.split_on_char ';' res in
-    List.map String.trim r
-  else []
+    List.map String.trim (String.split_on_char ';' res)
 
 (* map (getNames) -> list of list of names *)
 let names = List.flatten (List.map getNames (List.tl lines))
