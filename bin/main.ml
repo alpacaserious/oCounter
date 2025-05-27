@@ -21,7 +21,7 @@ let getNames l =
 let names = List.flatten (List.map getNames (List.tl lines))
 
 let count l =
-  let tbl = Hashtbl.create 10 in
+  let tbl = Hashtbl.create (List.length l / 2) in
   List.iter
     (fun key ->
       if Hashtbl.mem tbl key then
@@ -32,10 +32,16 @@ let count l =
 
 let pairs = count names
 
-let sort pairs b =
-  (* always sort alphabetically, if b then also sort numerically *)
+let sort pairs num =
+  (* always sort alphabetically, if num then also sort numerically *)
   let list = List.sort (fun l r -> String.compare (fst l) (fst r)) pairs in
-  if b then list else List.sort (fun l r -> Int.compare (snd l) (snd r)) list
+  if num then List.sort (fun l r -> Int.compare (snd l) (snd r)) list else list
 
-let sorted = sort pairs true
+(* default is numeric *)
+let num =
+  if Array.length Sys.argv != 2 then true
+  else if Sys.argv.(1) = "a" then false
+  else true
+
+let sorted = sort pairs num
 let () = List.iter (fun f -> printf "%d %s\n" (snd f) (fst f)) sorted
